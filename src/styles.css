@@ -274,6 +274,17 @@ html {
   pointer-events: none;
 }
 
+/* On emerald a near-transparent panel vanishes into the ground -- the card
+   and the section read as one flat colour. Dark sections get their own
+   deeper plate instead, lit from the top edge. */
+.tmpl-khatim .sec--dark .card {
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgba(110, 147, 132, 0.18), transparent 60%),
+    linear-gradient(170deg, rgba(27, 77, 67, 0.75), rgba(7, 30, 26, 0.92));
+  border-color: rgba(198, 161, 91, 0.42);
+  box-shadow: 0 26px 56px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
 /* on parchment the panels are lifted plates: a warm face, a gold edge and a
    shadow with enough weight to separate them from the ground */
 .tmpl-khatim .sec:not(.sec--dark) .card {
