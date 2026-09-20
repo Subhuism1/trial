@@ -37,7 +37,7 @@ const weddingData = {
   // Har event ka card: photo (public/ mein rakho), date, time, jagah aur
   // Google Maps link. mapsUrl na do to "location" se apne aap Maps link ban jaata hai.
   // Naam Mehendi / Haldi / Sangeet / Nikah / Walima ho to Arabic label apne aap lagta hai.
-  // Saare cards pe "scratch to reveal" hota hai -- date/time/jagah scratch karke dikhti hai.
+  // Saare cards pe "scratch to reveal" hota hai -- poora card scratch karke khulta hai.
   events: [
     {
       id: "mehndi-nikah",
@@ -48,8 +48,7 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Main Hall",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-mehndi.jpg",
-      // Scratch foil kitna bada ho: "full" (poora card), "below-photo"
-      // (photo chhod kar baaki) ya "details" (sirf neeche ki details).
+      // Scratch foil poore card pe rehta hai.
       scratch: "full",
     },
     {
@@ -61,7 +60,7 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Main Gate",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-sangeet.jpg",
-      scratch: "below-photo",
+      scratch: "full",
       // Personal link se aaya guest yahan dekhta hai ki uske kitne log invited hain
       showGuests: true,
     },
@@ -74,7 +73,7 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Grand Lawn",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-walima.jpg",
-      scratch: "details",
+      scratch: "full",
     },
   ],
 
@@ -158,7 +157,7 @@ const weddingData = {
   // Sections ka order -- kuch hatana ho to us id ko list se hata do.
   // "venue" aur "dressCode" hata diye gaye hain. Wapas chahiye to unki id
   // yahan list mein dobara likh do (venue = venue card, dressCode = dress code).
-  sectionOrder: ["scratchReveal", "envelop", "timeline", "countdown", "contact", "gifts", "hosts", "footer"],
+  sectionOrder: ["envelop", "timeline", "countdown", "contact", "gifts", "hosts", "footer"],
 };
 
 export default weddingData;

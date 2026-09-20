@@ -14,7 +14,6 @@ import { readGuestFromUrl } from "./lib/guest-invite.js";
 import IntroGate from "./components/IntroGate.jsx";
 import Hero from "./components/Hero.jsx";
 import Verse from "./components/Verse.jsx";
-import ScratchReveal from "./components/ScratchReveal.jsx";
 import Invite from "./components/Invite.jsx";
 import PhotoBand from "./components/PhotoBand.jsx";
 import Events from "./components/Events.jsx";
@@ -29,8 +28,8 @@ import SectionDivider from "./components/SectionDivider.jsx";
 import MusicToggle from "./components/MusicToggle.jsx";
 
 // Sections that are "glued" to the next one -- no floral divider after them
-// (scratch card + invitation, dress code + RSVP, hosts + footer).
-const NO_DIVIDER_AFTER = new Set(["scratchReveal", "dressCode", "hosts"]);
+// (dress code + RSVP, hosts + footer).
+const NO_DIVIDER_AFTER = new Set(["dressCode", "hosts"]);
 
 // Set when the page was opened from a personal link made on /create.html.
 const guest = readGuestFromUrl();
@@ -68,9 +67,6 @@ function Invitation() {
   }
 
   const sectionRenderers = {
-    scratchReveal: () => (
-      <ScratchReveal key="scratchReveal" data={wedding.scratch} day={wedding.day} couple={wedding.couple} />
-    ),
     envelop: () => <Invite key="envelop" data={wedding.invite} couple={wedding.couple} hosts={wedding.contact} />,
     timeline: () => <Events key="timeline" events={wedding.events} guest={guest} />,
     countdown: () => <Countdown key="countdown" day={wedding.day} venue={wedding.venue} couple={wedding.couple} />,

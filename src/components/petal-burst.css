@@ -1,0 +1,11 @@
+/* the petal burst canvas is appended to <body> directly (see burstPetals()
+   in petal-burst.js), so this selector must NOT be scoped under
+   .tmpl-khatim -- it lives outside the template root entirely. */
+.petal-burst {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

@@ -237,12 +237,6 @@ export function useLegacyWeddingData() {
         avoid: data.dressCode?.avoid ?? [],
       },
 
-      scratch: {
-        title: "Scratch & Reveal",
-        hint: "Rub the foil with your finger or cursor",
-        reveal: "We cannot wait to see you there",
-      },
-
       rsvp: {
         enabled: data.rsvp?.enabled ?? true,
         deadline: data.rsvp?.deadline ?? data.rsvpDeadline ?? "",

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { burstPetals } from "./ScratchReveal.jsx";
+import { burstPetals } from "./petal-burst.js";
 
 // A gold scratch-off foil laid over whatever its parent holds. The parent must
 // be `position: relative`; the foil measures its own box (place it with CSS
