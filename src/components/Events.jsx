@@ -23,58 +23,42 @@ function splitDate(text) {
   return m ? { day: m[1], rest: m[2] } : { day: "", rest: text ?? "" };
 }
 
-/** The personal "seats held for you" ribbon -- only on the event the couple
- *  marked with `showGuests` (the Barat), and only for a personal link. */
-function SeatsRibbon({ guest }) {
-  return (
-    <p className="events__seats">
-      <span className="events__seats-count">{guest.withFamily ? "With Family" : guest.count}</span>
-      <span className="events__seats-text">
-        {guest.withFamily
-          ? "you and your family are invited"
-          : `${guest.count === 1 ? "seat" : "seats"} reserved for the ${guest.family}`}
-      </span>
-    </p>
-  );
-}
-
 function EventCard({ event, index, revealAll, onRevealed, guest }) {
   const [revealed, setRevealed] = useState(false);
   const [touched, setTouched] = useState(false);
   const { day, rest } = splitDate(event.date);
 
   return (
-    <FadeIn className="card card--gold events__card" delay={0.07 * (index % 3)}>
-      <CornerFret className="corner corner--tl" />
-      <CornerFret className="corner corner--br" />
+    <FadeIn
+      className={`card card--gold events__card ${revealed ? "is-revealed" : ""} ${touched ? "is-touched" : ""}`}
+      delay={0.07 * (index % 3)}
+    >
+      {/* everything the foil hides until it is scratched away */}
+      <div className="events__panel" aria-hidden={!revealed}>
+        {event.photo && (
+          // cut to a mehrab, the same arch the venue card used
+          <div className="events__arch">
+            <img
+              className="events__photo"
+              src={event.photo}
+              alt={`${event.name} — ${event.subtitle}`}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.parentElement.style.display = "none";
+              }}
+            />
+          </div>
+        )}
 
-      {event.photo && (
-        // cut to a mehrab, the same arch the venue card uses
-        <div className="events__arch">
-          <img
-            className="events__photo"
-            src={event.photo}
-            alt={`${event.name} — ${event.subtitle}`}
-            loading="lazy"
-            onError={(e) => {
-              e.currentTarget.parentElement.style.display = "none";
-            }}
-          />
-        </div>
-      )}
+        <span className="events__num">{String(index + 1).padStart(2, "0")}</span>
 
-      <span className="events__num">{String(index + 1).padStart(2, "0")}</span>
+        {event.arabic && <p className="ar events__arabic">{event.arabic}</p>}
+        <h3 className="events__name">{event.name}</h3>
+        {event.subtitle && <p className="events__subtitle">{event.subtitle}</p>}
 
-      {event.arabic && <p className="ar events__arabic">{event.arabic}</p>}
-      <h3 className="events__name">{event.name}</h3>
-      {event.subtitle && <p className="events__subtitle">{event.subtitle}</p>}
+        <span className="events__line" />
 
-      {guest && <SeatsRibbon guest={guest} />}
-
-      <span className="events__line" />
-
-      <div className={`events__details ${revealed ? "is-revealed" : ""} ${touched ? "is-touched" : ""}`}>
-        <div className="events__info" aria-hidden={!revealed}>
+        <div className="events__info">
           {event.weekday && <p className="events__weekday">{event.weekday}</p>}
           <p className="events__date">
             {day && <span className="events__day">{day}</span>}
@@ -96,15 +80,35 @@ function EventCard({ event, index, revealAll, onRevealed, guest }) {
           )}
         </div>
 
-        <ScratchFoil
-          revealed={revealAll}
-          onStart={() => setTouched(true)}
-          onReveal={() => {
-            setRevealed(true);
-            onRevealed();
-          }}
-        />
+        {/* only on the event flagged with `showGuests`, and only for a personal link */}
+        {guest && (
+          <p className="events__seats">
+            {guest.withFamily ? (
+              <>
+                <b>With family</b> — you are all invited
+              </>
+            ) : (
+              <>
+                <b>{guest.count}</b> {guest.count === 1 ? "seat" : "seats"} reserved for {guest.family}
+              </>
+            )}
+          </p>
+        )}
       </div>
+
+      <CornerFret className="corner corner--tl" />
+      <CornerFret className="corner corner--br" />
+
+      {/* the foil covers the whole card -- the event itself is the surprise */}
+      <ScratchFoil
+        revealed={revealAll}
+        onStart={() => setTouched(true)}
+        onReveal={() => {
+          setRevealed(true);
+          onRevealed();
+        }}
+      />
+      {!touched && !revealed && <span className="events__glint" aria-hidden="true" />}
     </FadeIn>
   );
 }
@@ -123,7 +127,7 @@ export default function Events({ events, guest }) {
         <SectionTitle eyebrow="Celebrating Together" title="Wedding Events" />
 
         <p className="events__lead">
-          Every celebration holds a little secret — scratch the gold on each card to reveal the day, time and place.
+          Every celebration holds a little secret — scratch the gold to reveal each one.
         </p>
 
         <div className="events__grid">

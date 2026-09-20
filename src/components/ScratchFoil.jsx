@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { burstPetals } from "./ScratchReveal.jsx";
 
 // A gold scratch-off foil laid over whatever its parent holds. The parent must
-// be `position: relative`; the foil sizes itself to it.
+// be `position: relative`; the foil measures its own box (place it with CSS
+// insets), so it can sit flush or inside a frame.
 //
 // Smoothness notes:
 //  - soft, feathered brush stamped at tight spacing along the stroke, so fast
@@ -14,7 +15,7 @@ import { burstPetals } from "./ScratchReveal.jsx";
 const RADIUS = 24; // brush radius, CSS px
 const SPACING = RADIUS * 0.3; // distance between stamps along a stroke
 const GRID = 18; // coverage grid cells per side (18 x 18)
-const REVEAL_AT = 0.5; // fraction of grid cells touched that completes the card
+const REVEAL_AT = 0.34; // fraction of grid cells touched that completes the card
 
 function makeBrush(radius, dpr) {
   const size = Math.ceil(radius * 2 * dpr);
@@ -103,10 +104,9 @@ export default function ScratchFoil({ onReveal, onStart, label = "Scratch to rev
 
   const size = useCallback(() => {
     const canvas = canvasRef.current;
-    const host = canvas?.parentElement;
     const s = st.current;
-    if (!canvas || !host || s.done || s.started) return; // never wipe a half-scratched foil
-    const { width, height } = host.getBoundingClientRect();
+    if (!canvas || s.done || s.started) return; // never wipe a half-scratched foil
+    const { width, height } = canvas.getBoundingClientRect();
     if (!width || !height) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     Object.assign(s, { w: width, h: height, brush: makeBrush(RADIUS, dpr) });
