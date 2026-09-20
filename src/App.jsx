@@ -88,8 +88,14 @@ function Invitation() {
   const sections = [];
   let prevId = "verse";
   for (const id of data.sectionOrder) {
-    if (!NO_DIVIDER_AFTER.has(prevId)) sections.push(<SectionDivider key={`div-${id}`} />);
-    sections.push(sectionRenderers[id]?.());
+    // A section that renders nothing (RSVP switched off, say) must not leave
+    // its divider behind -- two garlands would end up stacked.
+    const node = sectionRenderers[id]?.();
+    if (node) {
+      if (!NO_DIVIDER_AFTER.has(prevId)) sections.push(<SectionDivider key={`div-${id}`} />);
+      sections.push(node);
+      prevId = id;
+    }
     if (id === "envelop") {
       sections.push(<SectionDivider key="div-band-one" />);
       sections.push(<PhotoBand key="band-one" {...wedding.photos.bandOne} alt="" />);
@@ -98,7 +104,6 @@ function Invitation() {
       sections.push(<SectionDivider key="div-band-two" />);
       sections.push(<PhotoBand key="band-two" {...wedding.photos.bandTwo} alt="" />);
     }
-    prevId = id;
   }
 
   return (

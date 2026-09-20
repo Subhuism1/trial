@@ -37,44 +37,24 @@ const weddingData = {
   // Saare cards pe "scratch to reveal" hota hai -- date/time/jagah scratch karke dikhti hai.
   events: [
     {
-      id: "haldi",
-      name: "Haldi",
-      detail: "Sunshine & Laughter",
-      date: "12 March 2027",
-      time: "11:00 AM",
-      location: "Ansari Residence, Bhopal",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ansari+Residence+Bhopal",
-      photo: "/templates/khatim/event-haldi.jpg",
-    },
-    {
-      id: "mehendi",
-      name: "Mehendi",
-      detail: "Henna Evening",
-      date: "12 March 2027",
+      id: "mehndi-nikah",
+      name: "Mehndi + Nikah",
+      detail: "Henna & The Ceremony",
+      date: "13 March 2027",
       time: "6:00 PM",
-      location: "Ansari Residence, Bhopal",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Ansari+Residence+Bhopal",
+      location: "Gulzar Bagh & Banquet — Main Hall",
+      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-mehndi.jpg",
     },
     {
-      id: "sangeet",
-      name: "Sangeet",
-      detail: "Music & Dance",
-      date: "13 March 2027",
-      time: "7:00 PM",
-      location: "Gulzar Bagh & Banquet — Lawn",
+      id: "barat",
+      name: "Barat",
+      detail: "The Procession",
+      date: "14 March 2027",
+      time: "4:00 PM",
+      location: "Gulzar Bagh & Banquet — Main Gate",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-sangeet.jpg",
-    },
-    {
-      id: "nikah",
-      name: "Nikah",
-      detail: "The Ceremony",
-      date: "14 March 2027",
-      time: "5:00 PM",
-      location: "Gulzar Bagh & Banquet — Main Hall",
-      mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
-      photo: "/templates/khatim/hero-poster.jpg",
     },
     {
       id: "walima",
@@ -166,7 +146,9 @@ const weddingData = {
   music: "/templates/khatim/music.mp3",
 
   // Sections ka order -- kuch hatana ho to us id ko list se hata do.
-  sectionOrder: ["scratchReveal", "envelop", "timeline", "countdown", "venue", "dressCode", "contact", "gifts", "hosts", "footer"],
+  // "dressCode" hata diya gaya hai (dress code nahi chahiye). Wapas chahiye to
+  // "venue" ke baad list mein "dressCode" likh do.
+  sectionOrder: ["scratchReveal", "envelop", "timeline", "countdown", "venue", "contact", "gifts", "hosts", "footer"],
 };
 
 export default weddingData;

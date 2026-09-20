@@ -33,6 +33,8 @@ const EVENT_ARABIC = {
   haldi: "ہلدی",
   reception: "استقبال",
   sangeet: "سنگیت",
+  barat: "بارات",
+  baraat: "بارات",
 };
 
 // Same idea for the card icon: the editor's own icon field is a free-text
@@ -51,6 +53,8 @@ const EVENT_ICON = {
   henna: "leaf",
   haldi: "leaf",
   sangeet: "lantern",
+  barat: "lantern",
+  baraat: "lantern",
 };
 
 // "12 March 2027" -> "Friday". Parsed by hand: Date() parsing of free-form
