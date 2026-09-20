@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="220" viewBox="0 0 1200 220" fill="none">
+  <!-- Soft skyline of domes and minarets for the footer band. -->
+  <g fill="#e07a5f" opacity="0.5">
+
+    <!-- left minaret -->
+    <path d="M96 220v-96h20v96z" />
+    <path d="M94 124q12-26 24 0z" />
+    <circle cx="106" cy="96" r="7" />
+    <path d="M105 88h2v-12h-2z" />
+
+    <!-- small dome, left -->
+    <path d="M150 220v-52h84v52z" />
+    <path d="M150 168q42-56 84 0z" />
+    <path d="M191 108h2v-16h-2z" />
+    <circle cx="192" cy="116" r="8" />
+
+    <!-- great dome, centre -->
+    <path d="M470 220v-86h260v86z" />
+    <path d="M470 134q130-140 260 0z" />
+    <path d="M598 46h4v-26h-4z" />
+    <circle cx="600" cy="58" r="13" />
+
+    <!-- flanking domes -->
+    <path d="M392 220v-56h62v56z" />
+    <path d="M392 164q31-52 62 0z" />
+    <circle cx="423" cy="106" r="7" />
+
+    <path d="M746 220v-56h62v56z" />
+    <path d="M746 164q31-52 62 0z" />
+    <circle cx="777" cy="106" r="7" />
+
+    <!-- tall minarets flanking the great dome -->
+    <path d="M330 220v-138h22v138z" />
+    <path d="M328 82q13-30 26 0z" />
+    <circle cx="341" cy="50" r="8" />
+    <path d="M340 40h2v-14h-2z" />
+
+    <path d="M848 220v-138h22v138z" />
+    <path d="M846 82q13-30 26 0z" />
+    <circle cx="859" cy="50" r="8" />
+    <path d="M858 40h2v-14h-2z" />
+
+    <!-- right dome -->
+    <path d="M966 220v-52h84v52z" />
+    <path d="M966 168q42-56 84 0z" />
+    <circle cx="1008" cy="116" r="8" />
+    <path d="M1007 108h2v-16h-2z" />
+
+    <!-- right minaret -->
+    <path d="M1084 220v-96h20v96z" />
+    <path d="M1082 124q12-26 24 0z" />
+    <circle cx="1094" cy="96" r="7" />
+    <path d="M1093 88h2v-12h-2z" />
+  </g>
+
+  <!-- arched windows punched out of the silhouette -->
+  <g fill="#fffaf6" opacity="0.85">
+    <path d="M556 220v-40q0-22 22-22t22 22v40z" />
+    <path d="M620 220v-30q0-16 16-16t16 16v30z" />
+    <path d="M516 220v-30q0-16 16-16t16 16v30z" />
+    <path d="M176 220v-24q0-13 13-13t13 13v24z" />
+    <path d="M992 220v-24q0-13 13-13t13 13v24z" />
+  </g>
+</svg>

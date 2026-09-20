@@ -1,0 +1,21 @@
+/* The garland straddles the joint between two sections: the divider itself
+   takes no height, so the two section backgrounds meet on a single line, and
+   the flowers hang half above it and half below. z-index lifts it over the
+   following section, which would otherwise paint across its lower half. */
+.tmpl-khatim .section-divider {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  /* centred across a zero-height line, so the garland hangs half into the
+     section above and half into the one below */
+  align-items: center;
+  height: 0;
+}
+
+.tmpl-khatim .section-divider__mark {
+  flex: none;
+  width: min(420px, 80%);
+  height: auto;
+  user-select: none;
+}

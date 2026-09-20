@@ -1,0 +1,149 @@
+/* ═══════════════════════════════════════════════════════════
+   Ambient layers. Purely decorative, never interactive, always
+   behind the section's content — geometry and candlelight
+   rather than falling petals.
+   ═══════════════════════════════════════════════════════════ */
+
+.tmpl-khatim .ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.tmpl-khatim .ambient span {
+  position: absolute;
+  display: block;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-duration: var(--dur);
+  animation-delay: var(--delay);
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  /* nothing moves until the section is actually on screen */
+  animation-play-state: paused;
+}
+
+.tmpl-khatim .ambient.is-live span {
+  animation-play-state: running;
+}
+
+/* ── embers: points of candlelight lifting off the page ───── */
+.tmpl-khatim .ambient--embers span {
+  width: calc(4px * var(--s));
+  height: calc(4px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-soft) 0%, var(--gold) 45%, transparent 72%);
+  box-shadow: 0 0 calc(9px * var(--s)) rgba(198, 161, 91, 0.55);
+  animation-name: ember-rise;
+}
+
+@keyframes ember-rise {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.5);
+    opacity: 0;
+  }
+  18% {
+    opacity: var(--o);
+  }
+  55% {
+    opacity: calc(var(--o) * 0.75);
+  }
+  78% {
+    opacity: var(--o);
+  }
+  100% {
+    transform: translate3d(var(--dx), calc(var(--dy) * -2.2), 0) scale(1.05);
+    opacity: 0;
+  }
+}
+
+/* ── stars: khatim outlines turning very slowly ───────────── */
+.tmpl-khatim .ambient--stars span {
+  width: calc(46px * var(--s));
+  height: calc(46px * var(--s));
+  background: none;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  /* an eight-point star cut from a square */
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
+  );
+  animation-name: star-turn;
+}
+
+@keyframes star-turn {
+  0% {
+    transform: rotate(0deg) scale(0.85);
+    opacity: 0;
+  }
+  25%,
+  70% {
+    opacity: calc(var(--o) * 0.5);
+  }
+  100% {
+    transform: rotate(var(--spin)) scale(1.1) translate3d(var(--dx), calc(var(--dy) * -0.4), 0);
+    opacity: 0;
+  }
+}
+
+/* ── haze: broad warm drifts, like light through a screen ─── */
+.tmpl-khatim .ambient--haze span {
+  width: calc(190px * var(--s));
+  height: calc(190px * var(--s));
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(198, 161, 91, 0.3) 0%, transparent 68%);
+  filter: blur(22px);
+  animation-name: haze-drift;
+}
+
+@keyframes haze-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.85);
+    opacity: 0;
+  }
+  30%,
+  68% {
+    opacity: calc(var(--o) * 0.55);
+  }
+  100% {
+    transform: translate3d(var(--dx), calc(var(--dy) * -0.6), 0) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* ── filigree: small diamonds that open and close ─────────── */
+.tmpl-khatim .ambient--filigree span {
+  width: calc(11px * var(--s));
+  height: calc(11px * var(--s));
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  animation-name: filigree-breathe;
+}
+
+@keyframes filigree-breathe {
+  0%,
+  100% {
+    transform: rotate(45deg) scale(0.4);
+    opacity: 0;
+  }
+  50% {
+    transform: rotate(calc(45deg + var(--spin))) scale(1);
+    opacity: calc(var(--o) * 0.7);
+  }
+}
+
+/* keep every section's real content above the drift */
+.tmpl-khatim .sec > .wrap, .tmpl-khatim .footer > .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmpl-khatim .ambient {
+    display: none;
+  }
+}

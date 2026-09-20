@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="108" height="108">
+  <g fill="none" stroke="#0E362F" stroke-width="1.1">
+    <!-- interlacing jali grid -->
+    <path d="M54 6 78 30 54 54 30 30z"/>
+    <path d="M54 54 78 78 54 102 30 78z"/>
+    <path d="M0 30 24 54 0 78z"/>
+    <path d="M108 30 84 54 108 78z"/>
+    <path d="M30 30 54 6 30 -18z" opacity=".55"/>
+    <path d="M78 30 54 6 78 -18z" opacity=".55"/>
+    <path d="M30 78 54 102 30 126z" opacity=".55"/>
+    <path d="M78 78 54 102 78 126z" opacity=".55"/>
+  </g>
+  <g fill="none" stroke="#0E362F" stroke-width="0.8" opacity=".6">
+    <circle cx="54" cy="30" r="8"/>
+    <circle cx="54" cy="78" r="8"/>
+    <circle cx="0" cy="54" r="8"/>
+    <circle cx="108" cy="54" r="8"/>
+    <path d="M54 0v108M0 54h108"/>
+  </g>
+</svg>

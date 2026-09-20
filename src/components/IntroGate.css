@@ -1,0 +1,628 @@
+.tmpl-khatim .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--emerald-deep);
+  transition: opacity 1.2s ease, visibility 1.2s ease;
+
+  /* local aliases — the Wed intro's dark-ground text tokens, mapped onto
+     this project's own palette rather than editing base.css */
+  --intro-ink-soft: rgba(246, 241, 231, 0.82);
+}
+
+.tmpl-khatim .intro--leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tmpl-khatim .intro::after {
+  content: "";
+  position: absolute;
+  inset: 22px;
+  border: 1px solid rgba(198, 161, 91, 0.28);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.tmpl-khatim .intro__scene {
+  position: absolute;
+  inset: 0;
+}
+
+.tmpl-khatim .intro__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: filter 1.4s ease;
+}
+
+.tmpl-khatim .intro__bg--dim {
+  filter: brightness(0.4) saturate(0.65);
+}
+
+@keyframes lightFlicker {
+  0% { filter: brightness(0.4) saturate(0.65); }
+  4% { filter: brightness(0.7) saturate(0.8); }
+  8% { filter: brightness(0.36) saturate(0.6); }
+  15% { filter: brightness(0.82) saturate(0.9); }
+  21% { filter: brightness(0.38) saturate(0.62); }
+  29% { filter: brightness(0.92) saturate(1); }
+  40% { filter: brightness(0.72) saturate(0.9); }
+  52% { filter: brightness(1) saturate(1); }
+  62% { filter: brightness(0.92) saturate(1); }
+  100% { filter: brightness(1) saturate(1); }
+}
+
+.tmpl-khatim .intro__bg--flicker {
+  animation: lightFlicker 1400ms ease forwards;
+}
+
+.tmpl-khatim .intro__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(58% 52% at 50% 42%, rgba(8, 4, 8, 0.5) 0%, rgba(8, 4, 8, 0.22) 55%, rgba(8, 4, 8, 0) 100%),
+    linear-gradient(180deg, rgba(8, 4, 8, 0.32) 0%, rgba(8, 4, 8, 0.05) 26%, rgba(8, 4, 8, 0.08) 60%, rgba(8, 4, 8, 0.4) 100%);
+}
+
+.tmpl-khatim .intro__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 110% 80% at 50% 5%,
+    rgba(255, 218, 100, 0.92) 0%,
+    rgba(255, 190, 60, 0.44) 30%,
+    rgba(255, 160, 40, 0.12) 58%,
+    transparent 76%
+  );
+  animation: cinemaFlash 1300ms ease-out forwards;
+}
+
+@keyframes cinemaFlash {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.tmpl-khatim .intro__skip {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.5rem;
+  z-index: 8;
+  background: none;
+  border: none;
+  color: var(--intro-ink-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.25s ease;
+}
+
+.tmpl-khatim .intro__skip:hover {
+  opacity: 1;
+  color: var(--gold-soft);
+}
+
+/* ---------- rope ---------- */
+
+.tmpl-khatim .intro__rope {
+  position: absolute;
+  top: -1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  background: none;
+  border: none;
+  padding: 0;
+  touch-action: none;
+  cursor: grab;
+}
+
+.tmpl-khatim .intro__rope--dragging {
+  cursor: grabbing;
+}
+
+.tmpl-khatim .intro__rope--idle img {
+  animation: ropeIdleSway 3.4s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+@keyframes ropeIdleSway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+.tmpl-khatim .intro__rope img {
+  display: block;
+  width: clamp(100px, 15vw, 160px);
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.4));
+}
+
+.tmpl-khatim .intro__rope-halo {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translateX(-50%) scale(1);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 217, 176, 0.55), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- text cascade ---------- */
+
+.tmpl-khatim .intro__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.tmpl-khatim .intro__reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tmpl-khatim .intro__reveal-item {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 1100ms ease, transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.tmpl-khatim .intro__reveal-item.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tmpl-khatim .intro__content .eyebrow {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-khatim .intro__names {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  color: var(--gold-soft);
+  margin-top: 0.3rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(198, 161, 91, 0.4);
+}
+
+.tmpl-khatim .intro__amp {
+  padding: 0 0.35rem;
+  font-size: 0.7em;
+}
+
+.tmpl-khatim .intro__date {
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--intro-ink-soft);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-khatim .intro__venue {
+  font-size: 0.82rem;
+  color: var(--intro-ink-soft);
+  opacity: 0.8;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-khatim .intro__hint {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--intro-ink-soft);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.55);
+}
+
+.tmpl-khatim .intro__hint--pull {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: hintPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+/* ---------- crescent moon ---------- */
+
+.tmpl-khatim .intro__crescent-scene {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.tmpl-khatim .intro__crescent {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  border: none;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-soft);
+  transition: transform 200ms ease;
+  animation: crescentIdle 2.6s ease-in-out infinite;
+}
+
+.tmpl-khatim .intro__crescent--p1 {
+  animation: none;
+  transform: scale(0.9);
+}
+
+.tmpl-khatim .intro__crescent--p2 {
+  animation: none;
+  transform: scale(1.15);
+}
+
+.tmpl-khatim .intro__crescent--p3, .tmpl-khatim .intro__crescent--popen {
+  animation: none;
+  transform: scale(1);
+}
+
+@keyframes crescentIdle {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(232, 217, 176, 0)); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 16px rgba(232, 217, 176, 0.45)); }
+}
+
+.tmpl-khatim .intro__crescent-svg {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.4));
+}
+
+.tmpl-khatim .intro__crescent-ring {
+  color: var(--gold-soft);
+}
+
+.tmpl-khatim .intro__crescent-moon {
+  transition: fill 400ms ease;
+}
+
+.tmpl-khatim .intro__crescent-star {
+  transition: opacity 420ms ease 80ms;
+}
+
+.tmpl-khatim .intro__crescent-glow {
+  position: absolute;
+  inset: -60%;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 217, 176, 0.55), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tmpl-khatim .intro__crescent--open .intro__crescent-glow {
+  animation: glowPop 900ms ease-out;
+}
+
+@keyframes glowPop {
+  0% { opacity: 0; transform: scale(0.6); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.35); }
+}
+
+@media (max-width: 640px) {
+  .tmpl-khatim .intro__crescent {
+    width: 88px;
+    height: 88px;
+  }
+
+  .tmpl-khatim .intro__rope img {
+    width: clamp(150px, 40vw, 200px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmpl-khatim .intro__rope--idle img, .tmpl-khatim .intro__crescent, .tmpl-khatim .intro__bg--flicker, .tmpl-khatim .intro__hint--pull {
+    animation: none !important;
+  }
+}
+
+/* ---------- personal invite (?to=...) ---------- */
+
+.tmpl-khatim .intro__guest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  max-width: min(40rem, 92vw);
+}
+
+.tmpl-khatim .intro__guest-name {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 6.4vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: 0.02em;
+  margin-top: 0.45rem;
+  background: linear-gradient(180deg, #f8e7b4 0%, var(--gold-soft) 45%, #c69a4c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 26px rgba(198, 161, 91, 0.35));
+  overflow-wrap: anywhere;
+}
+
+.tmpl-khatim .intro__guest-name--mid {
+  font-size: clamp(1.8rem, 5.2vw, 3.3rem);
+}
+
+.tmpl-khatim .intro__guest-name--long {
+  font-size: clamp(1.45rem, 4.2vw, 2.6rem);
+}
+
+.tmpl-khatim .intro__guest-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.7rem 0 0.9rem;
+  color: var(--gold-soft);
+}
+
+.tmpl-khatim .intro__guest-rule span {
+  width: clamp(3rem, 12vw, 6rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-soft));
+}
+
+.tmpl-khatim .intro__guest-rule span:last-child {
+  background: linear-gradient(90deg, var(--gold-soft), transparent);
+}
+
+.tmpl-khatim .intro__guest-rule svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* the seat count -- a framed gold numeral, the most visible thing after the name */
+.tmpl-khatim .intro__seats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.55rem 1.3rem 0.55rem 0.6rem;
+  border: 1px solid rgba(227, 201, 137, 0.55);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(9, 37, 32, 0.72), rgba(9, 37, 32, 0.5));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 0 0 3px rgba(9, 37, 32, 0.4), inset 0 0 0 4px rgba(227, 201, 137, 0.18);
+}
+
+.tmpl-khatim .intro__seats-num {
+  display: grid;
+  place-items: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border-radius: 50%;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  background: radial-gradient(circle at 35% 30%, #fbecc0, var(--gold-soft) 45%, #b48a3e 100%);
+  box-shadow: 0 0 18px rgba(227, 201, 137, 0.45);
+}
+
+.tmpl-khatim .intro__seats-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  line-height: 1.2;
+}
+
+.tmpl-khatim .intro__seats-label small {
+  font-family: var(--body);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--intro-ink-soft);
+  margin-top: 0.2rem;
+}
+
+.tmpl-khatim .intro__members {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.95rem;
+}
+
+.tmpl-khatim .intro__members li {
+  padding: 0.28rem 0.8rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: #f6f1e7;
+  border: 1px solid rgba(227, 201, 137, 0.35);
+  border-radius: 999px;
+  background: rgba(9, 37, 32, 0.55);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.tmpl-khatim .intro__to-wedding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.9rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--intro-ink-soft);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.tmpl-khatim .intro__to-couple {
+  font-family: var(--display);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  letter-spacing: 0.1em;
+  text-transform: none;
+  color: var(--gold-soft);
+  margin-top: 0.25rem;
+}
+
+.tmpl-khatim .intro--guest .intro__crescent-scene {
+  margin-top: 0.8rem;
+}
+
+.tmpl-khatim .intro--guest .intro__crescent {
+  width: 88px;
+  height: 88px;
+}
+
+@media (max-width: 640px) {
+  .tmpl-khatim .intro--guest .intro__content {
+    padding: 2rem 1.25rem;
+  }
+
+  .tmpl-khatim .intro__seats-num {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  }
+
+  .tmpl-khatim .intro__members li {
+    font-size: 0.74rem;
+    padding: 0.22rem 0.65rem;
+  }
+
+  .tmpl-khatim .intro--guest .intro__crescent {
+    width: 76px;
+    height: 76px;
+  }
+}
+
+/* short screens (landscape laptops, phones) -- keep everything on one screen */
+@media (max-height: 720px) {
+  .tmpl-khatim .intro--guest .intro__content {
+    gap: 0.25rem;
+  }
+
+  .tmpl-khatim .intro--guest .intro__reveal {
+    gap: 0.25rem;
+  }
+
+  .tmpl-khatim .intro__guest-rule {
+    margin: 0.4rem 0 0.55rem;
+  }
+
+  .tmpl-khatim .intro__members {
+    margin-top: 0.6rem;
+  }
+
+  .tmpl-khatim .intro--guest .intro__crescent {
+    width: 68px;
+    height: 68px;
+  }
+}
+
+/* a touch more shade behind the text -- the guest block is taller and runs
+   down over the brightly lit archway */
+.tmpl-khatim .intro--guest .intro__scrim {
+  background:
+    radial-gradient(52% 62% at 50% 50%, rgba(8, 4, 8, 0.62) 0%, rgba(8, 4, 8, 0.34) 55%, rgba(8, 4, 8, 0) 100%),
+    linear-gradient(180deg, rgba(8, 4, 8, 0.32) 0%, rgba(8, 4, 8, 0.08) 26%, rgba(8, 4, 8, 0.12) 60%, rgba(8, 4, 8, 0.45) 100%);
+}
+
+.tmpl-khatim .intro--guest .intro__date,
+.tmpl-khatim .intro--guest .intro__venue,
+.tmpl-khatim .intro--guest .intro__hint,
+.tmpl-khatim .intro__to-wedding {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 14px rgba(0, 0, 0, 0.75);
+}
+
+.tmpl-khatim .intro__to-couple .intro__amp {
+  color: var(--gold-soft);
+  font-size: 1.1em;
+}
+
+/* ---------- guest mode: readability over the lit archway ---------- */
+
+/* a soft dark halo right behind the text block */
+.tmpl-khatim .intro--guest .intro__content::before {
+  content: "";
+  position: absolute;
+  inset: -8% -18%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(6, 18, 15, 0.78) 0%, rgba(6, 18, 15, 0.6) 55%, rgba(6, 18, 15, 0) 100%);
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.tmpl-khatim .intro--guest.intro--lit .intro__content::before {
+  opacity: 1;
+}
+
+.tmpl-khatim .intro--guest .intro__content .eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.34em;
+  color: var(--gold-soft);
+}
+
+.tmpl-khatim .intro__seats-label small {
+  font-size: 0.74rem;
+  color: #f6f1e7;
+}
+
+.tmpl-khatim .intro__to-wedding {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.26em;
+  color: #f6f1e7;
+}
+
+.tmpl-khatim .intro__to-couple {
+  font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+  font-weight: 600;
+  color: #f3dc9e;
+}
+
+.tmpl-khatim .intro--guest .intro__hint {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #f6f1e7;
+}
+
+.tmpl-khatim .intro--guest .intro__crescent {
+  color: #f3dc9e;
+}

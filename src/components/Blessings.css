@@ -1,0 +1,57 @@
+.tmpl-khatim .blessings {
+  text-align: center;
+}
+
+.tmpl-khatim .blessings__intro {
+  max-width: 54ch;
+  margin: 0 auto clamp(2.2rem, 4.5vw, 3rem);
+}
+
+.tmpl-khatim .blessings__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1rem, 2.4vw, 1.5rem);
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.tmpl-khatim .blessings__card {
+  padding: clamp(2.2rem, 4.5vw, 2.9rem) clamp(1.4rem, 3vw, 2rem);
+}
+
+.tmpl-khatim .blessings__badge {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 1.4rem;
+  color: var(--gold);
+}
+
+.tmpl-khatim .blessings__icon {
+  width: 36px;
+}
+
+.tmpl-khatim .blessings__title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(1rem, 2.4vw, 1.2rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.tmpl-khatim .blessings__text {
+  max-width: 32ch;
+  margin: 1rem auto 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.85;
+  color: var(--text);
+}
+
+@media (max-width: 600px) {
+  .tmpl-khatim .blessings__grid {
+    grid-template-columns: 1fr;
+  }
+}
