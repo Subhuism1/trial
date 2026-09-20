@@ -48,6 +48,9 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Main Hall",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-mehndi.jpg",
+      // Scratch foil kitna bada ho: "full" (poora card), "below-photo"
+      // (photo chhod kar baaki) ya "details" (sirf neeche ki details).
+      scratch: "full",
     },
     {
       id: "barat",
@@ -58,6 +61,7 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Main Gate",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-sangeet.jpg",
+      scratch: "below-photo",
       // Personal link se aaya guest yahan dekhta hai ki uske kitne log invited hain
       showGuests: true,
     },
@@ -70,6 +74,7 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Grand Lawn",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-walima.jpg",
+      scratch: "details",
     },
   ],
 

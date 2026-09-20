@@ -202,6 +202,7 @@ export function useLegacyWeddingData() {
               : ""),
           weekday: weekdayOf(e.date),
           showGuests: Boolean(e.showGuests),
+          scratch: e.scratch ?? "full",
           icon: EVENT_ICON[key] ?? "rings",
         };
       }),

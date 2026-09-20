@@ -28,13 +28,33 @@ function EventCard({ event, index, revealAll, onRevealed, guest }) {
   const [touched, setTouched] = useState(false);
   const { day, rest } = splitDate(event.date);
 
+  // How much of the card the foil hides: the whole card, everything below the
+  // photograph, or just the date/time block (see `scratch` in data.js).
+  const variant = event.scratch ?? "full";
+
+  // One foil, dropped into whichever wrapper the variant calls for.
+  const foil = (
+    <>
+      <ScratchFoil
+        revealed={revealAll}
+        onStart={() => setTouched(true)}
+        onReveal={() => {
+          setRevealed(true);
+          onRevealed();
+        }}
+      />
+      {!touched && !revealed && <span className="events__glint" aria-hidden="true" />}
+    </>
+  );
+
   return (
     <FadeIn
-      className={`card card--gold events__card ${revealed ? "is-revealed" : ""} ${touched ? "is-touched" : ""}`}
+      className={`card card--gold events__card events__card--${variant} ${revealed ? "is-revealed" : ""} ${
+        touched ? "is-touched" : ""
+      }`}
       delay={0.07 * (index % 3)}
     >
-      {/* everything the foil hides until it is scratched away */}
-      <div className="events__panel" aria-hidden={!revealed}>
+      <div className="events__panel">
         {event.photo && (
           // cut to a mehrab, the same arch the venue card used
           <div className="events__arch">
@@ -50,65 +70,64 @@ function EventCard({ event, index, revealAll, onRevealed, guest }) {
           </div>
         )}
 
-        <span className="events__num">{String(index + 1).padStart(2, "0")}</span>
+        <div className="events__lower" aria-hidden={variant === "below-photo" && !revealed}>
+          <span className="events__num">{String(index + 1).padStart(2, "0")}</span>
 
-        {event.arabic && <p className="ar events__arabic">{event.arabic}</p>}
-        <h3 className="events__name">{event.name}</h3>
-        {event.subtitle && <p className="events__subtitle">{event.subtitle}</p>}
+          {event.arabic && <p className="ar events__arabic">{event.arabic}</p>}
+          <h3 className="events__name">{event.name}</h3>
+          {event.subtitle && <p className="events__subtitle">{event.subtitle}</p>}
 
-        <span className="events__line" />
+          <span className="events__line" />
 
-        <div className="events__info">
-          {event.weekday && <p className="events__weekday">{event.weekday}</p>}
-          <p className="events__date">
-            {day && <span className="events__day">{day}</span>}
-            <span className="events__month">{rest}</span>
-          </p>
-          {event.time && <p className="events__time">{event.time}</p>}
-          {event.place && <p className="events__place">{event.place}</p>}
-          {event.mapUrl && (
-            <a
-              className="events__map"
-              href={event.mapUrl}
-              target="_blank"
-              rel="noreferrer"
-              tabIndex={revealed ? 0 : -1}
-            >
-              <PinIcon />
-              Open in Maps
-            </a>
-          )}
-        </div>
+          <div className="events__details" aria-hidden={variant === "details" && !revealed}>
+            <div className="events__info">
+              {event.weekday && <p className="events__weekday">{event.weekday}</p>}
+              <p className="events__date">
+                {day && <span className="events__day">{day}</span>}
+                <span className="events__month">{rest}</span>
+              </p>
+              {event.time && <p className="events__time">{event.time}</p>}
+              {event.place && <p className="events__place">{event.place}</p>}
+              {event.mapUrl && (
+                <a
+                  className="events__map"
+                  href={event.mapUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  tabIndex={revealed ? 0 : -1}
+                >
+                  <PinIcon />
+                  Open in Maps
+                </a>
+              )}
+            </div>
 
-        {/* only on the event flagged with `showGuests`, and only for a personal link */}
-        {guest && (
-          <p className="events__seats">
-            {guest.withFamily ? (
-              <>
-                <b>With family</b> — you are all invited
-              </>
-            ) : (
-              <>
-                <b>{guest.count}</b> {guest.count === 1 ? "seat" : "seats"} reserved for {guest.family}
-              </>
+            {/* only on the event flagged with `showGuests`, and only for a personal link */}
+            {guest && (
+              <p className="events__seats">
+                {guest.withFamily ? (
+                  <>
+                    <b>With family</b> — you are all invited
+                  </>
+                ) : (
+                  <>
+                    <b>{guest.count}</b> {guest.count === 1 ? "seat" : "seats"} reserved for {guest.family}
+                  </>
+                )}
+              </p>
             )}
-          </p>
-        )}
+
+            {variant === "details" && foil}
+          </div>
+
+          {variant === "below-photo" && foil}
+        </div>
       </div>
 
       <CornerFret className="corner corner--tl" />
       <CornerFret className="corner corner--br" />
 
-      {/* the foil covers the whole card -- the event itself is the surprise */}
-      <ScratchFoil
-        revealed={revealAll}
-        onStart={() => setTouched(true)}
-        onReveal={() => {
-          setRevealed(true);
-          onRevealed();
-        }}
-      />
-      {!touched && !revealed && <span className="events__glint" aria-hidden="true" />}
+      {variant === "full" && foil}
     </FadeIn>
   );
 }

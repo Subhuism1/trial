@@ -142,6 +142,16 @@
   flex: 1;
 }
 
+/* everything under the photograph, and the date block inside it -- each is a
+   possible home for the foil (see `scratch` in data.js) */
+.tmpl-khatim .events__lower,
+.tmpl-khatim .events__details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .tmpl-khatim .events__info {
   display: flex;
   flex-direction: column;
@@ -248,12 +258,31 @@
 /* a canvas is a replaced element: with height:auto it would keep its own
    intrinsic size instead of stretching between the insets, so size it here */
 .tmpl-khatim .events__card .foil,
-.tmpl-khatim .events__card .foil__dust {
+.tmpl-khatim .events__card .foil__dust,
+.tmpl-khatim .events__glint {
   position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* "full": the foil sits inside the card's gold frame */
+.tmpl-khatim .events__card--full > .foil,
+.tmpl-khatim .events__card--full > .foil__dust,
+.tmpl-khatim .events__card--full > .events__glint {
   top: 7px;
   left: 7px;
   width: calc(100% - 14px);
   height: calc(100% - 14px);
+}
+
+/* "details": a little breathing room around the date block */
+.tmpl-khatim .events__details > .foil,
+.tmpl-khatim .events__details > .foil__dust,
+.tmpl-khatim .events__details > .events__glint {
+  top: -0.4rem;
+  height: calc(100% + 0.8rem);
 }
 
 .tmpl-khatim .events__card .foil {
@@ -287,8 +316,6 @@
 
 /* a slow glint across untouched foil -- says "touch me" without words */
 .tmpl-khatim .events__glint {
-  position: absolute;
-  inset: 7px;
   z-index: 5;
   pointer-events: none;
   background: linear-gradient(105deg, transparent 38%, rgba(255, 250, 230, 0.5) 50%, transparent 62%);
@@ -376,4 +403,13 @@
   .tmpl-khatim .events__card.is-revealed .events__panel {
     animation: none;
   }
+}
+
+/* with the foil starting under the photo, the number must not hang above it */
+.tmpl-khatim .events__card--below-photo .events__num {
+  margin-top: 0.7rem;
+}
+
+.tmpl-khatim .events__card--below-photo .events__num::before {
+  box-shadow: 0 6px 14px rgba(14, 54, 47, 0.22);
 }
