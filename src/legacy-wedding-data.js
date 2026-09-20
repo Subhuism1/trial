@@ -162,8 +162,10 @@ export function useLegacyWeddingData() {
 
       hero: {
         eyebrow: "Together with their families",
-        intro: "We invite you to celebrate our",
-        occasion: data.heroOccasion ?? "Nikah & Walima",
+        intro: data.heroIntro ?? "We invite you to celebrate our",
+        // Used instead of the line above when the guest opened a bride-side link.
+        introBride: data.heroIntroBride ?? data.heroIntro ?? "We invite you to celebrate our",
+        occasion: data.heroOccasion ?? "Wedding Ceremony",
       },
 
       verse: {
@@ -199,6 +201,7 @@ export function useLegacyWeddingData() {
               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(e.location)}`
               : ""),
           weekday: weekdayOf(e.date),
+          showGuests: Boolean(e.showGuests),
           icon: EVENT_ICON[key] ?? "rings",
         };
       }),

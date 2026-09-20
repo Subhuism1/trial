@@ -15,7 +15,10 @@ const weddingData = {
   // Countdown isi date/time tak chalta hai
   weddingDateTime: "2027-03-14T17:00:00+05:30",
   ceremonyStart: "5:00 PM",
-  heroOccasion: "Nikah & Walima",
+  // Hero ki lines. Groom side ke link pe "son", bride side ke link pe "daughter".
+  heroOccasion: "Wedding Ceremony",
+  heroIntro: "We invite you to celebrate our beloved son",
+  heroIntroBride: "We invite you to celebrate our beloved daughter",
   countdownLabel: "Nikah",
 
   venue: {
@@ -55,6 +58,8 @@ const weddingData = {
       location: "Gulzar Bagh & Banquet — Main Gate",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gulzar+Bagh+Banquet+Bhopal",
       photo: "/templates/khatim/event-sangeet.jpg",
+      // Personal link se aaya guest yahan dekhta hai ki uske kitne log invited hain
+      showGuests: true,
     },
     {
       id: "walima",
@@ -146,9 +151,9 @@ const weddingData = {
   music: "/templates/khatim/music.mp3",
 
   // Sections ka order -- kuch hatana ho to us id ko list se hata do.
-  // "dressCode" hata diya gaya hai (dress code nahi chahiye). Wapas chahiye to
-  // "venue" ke baad list mein "dressCode" likh do.
-  sectionOrder: ["scratchReveal", "envelop", "timeline", "countdown", "venue", "contact", "gifts", "hosts", "footer"],
+  // "venue" aur "dressCode" hata diye gaye hain. Wapas chahiye to unki id
+  // yahan list mein dobara likh do (venue = venue card, dressCode = dress code).
+  sectionOrder: ["scratchReveal", "envelop", "timeline", "countdown", "contact", "gifts", "hosts", "footer"],
 };
 
 export default weddingData;

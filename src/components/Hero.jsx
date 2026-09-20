@@ -12,7 +12,7 @@ import "./Hero.css";
  * document.body directly, which is wrong inside the dashboard editor's own
  * scrollable preview pane. This component just reports back via onOpen.
  */
-export default function Hero({ couple, day, hero, opener, video, poster, onOpen, autoOpen = false }) {
+export default function Hero({ couple, day, hero, opener, video, poster, guest, onOpen, autoOpen = false }) {
   const [opened, setOpened] = useState(false);
   const [petals, setPetals] = useState(false);
   // This template ships no bundled clip -- the still poster is the whole
@@ -114,7 +114,7 @@ export default function Hero({ couple, day, hero, opener, video, poster, onOpen,
 
         <Divider className="hero__rule" />
 
-        <p className="hero__intro">{hero.intro}</p>
+        <p className="hero__intro">{guest?.side === "bride" ? hero.introBride : hero.intro}</p>
 
         <h1 className="hero__names">
           {couple.nameOrder === "groom-first" ? (
@@ -133,14 +133,6 @@ export default function Hero({ couple, day, hero, opener, video, poster, onOpen,
         </h1>
 
         <p className="hero__occasion">{hero.occasion}</p>
-
-        <div className="hero__when">
-          <span>{day.weekday}</span>
-          <span className="hero__dot" />
-          <span>{day.date}</span>
-          <span className="hero__dot hero__dot--last" />
-          <span className="hero__city">{day.city}</span>
-        </div>
       </div>
 
       {opened && (

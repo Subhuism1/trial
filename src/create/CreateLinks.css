@@ -479,3 +479,52 @@
   color: rgba(227, 201, 137, 0.75);
   overflow-wrap: anywhere;
 }
+
+/* count stepper + "With Family" alternative */
+.cl__count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cl__count-or {
+  font-size: 0.78rem;
+  color: var(--ivory-dim);
+}
+
+.cl__stepper.is-off {
+  opacity: 0.4;
+}
+
+.cl__family-btn {
+  padding: 0.7rem 1.1rem;
+  font-size: 0.82rem;
+  color: var(--gold-soft);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.cl__family-btn:hover {
+  border-color: rgba(227, 201, 137, 0.6);
+}
+
+.cl__family-btn.is-on {
+  background: linear-gradient(180deg, #f1dc9f, var(--gold));
+  border-color: var(--gold);
+  color: var(--emerald-deep);
+  font-weight: 500;
+}
+
+.cl__stats span em {
+  display: block;
+  margin-top: 0.15rem;
+  font-style: normal;
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: none;
+  color: var(--gold-soft);
+}

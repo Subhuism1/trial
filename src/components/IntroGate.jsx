@@ -335,12 +335,12 @@ export default function IntroGate({ couple, day, venue, guest, onOpen, onLightsO
  * invite link: who is invited, how many seats, and (optionally) by name.
  */
 function GuestWelcome({ guest, visible }) {
-  const { family, count, members, side } = guest;
+  const { family, count, withFamily, side } = guest;
   const long = family.length > 26 ? "intro__guest-name--long" : family.length > 16 ? "intro__guest-name--mid" : "";
   return (
     <div className={`intro__reveal-item intro__guest ${visible ? "is-visible" : ""}`}>
       <p className="eyebrow">
-        {side ? `The ${side === "groom" ? "groom's" : "bride's"} family cordially invites` : "Cordially inviting"}
+        {side === "bride" ? "The bride's family cordially invites" : "The groom's family cordially invites"}
       </p>
       <h1 className={`intro__guest-name ${long}`}>{family}</h1>
 
@@ -350,21 +350,16 @@ function GuestWelcome({ guest, visible }) {
         <span />
       </div>
 
-      <div className="intro__seats">
-        <span className="intro__seats-num">{count}</span>
+      {/* the same count the Barat card repeats further down the page */}
+      <div className={`intro__seats ${withFamily ? "intro__seats--family" : ""}`.trim()}>
+        <span className="intro__seats-num">{withFamily ? "✦" : count}</span>
         <span className="intro__seats-label">
-          {count === 1 ? "Guest" : "Guests"}
-          <small>seats reserved in your honour</small>
+          {withFamily ? "With Family" : count === 1 ? "Guest" : "Guests"}
+          <small>
+            {withFamily ? "you and your family are invited" : "seats reserved in your honour"}
+          </small>
         </span>
       </div>
-
-      {members.length > 0 && (
-        <ul className="intro__members" aria-label="Invited guests">
-          {members.map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ul>
-      )}
     </div>
   );
 }

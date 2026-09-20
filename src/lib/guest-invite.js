@@ -1,8 +1,9 @@
 // Personal invite links, readable and short -- the guest's details are the
 // query string itself, so the site stays fully static (no database):
 //
-//   /?upadhyay-family-3     -> "Upadhyay Family", 3 guests, groom's side
-//   /?rafiq-ahmed-and-family-5b -> "Rafiq Ahmed & Family", 5 guests, bride's side
+//   /?upadhyay-family-3          -> "Upadhyay Family", 3 guests, groom's side
+//   /?upadhyay-family-f          -> "Upadhyay Family", with family, groom's side
+//   /?rafiq-ahmed-and-family-5b  -> "Rafiq Ahmed & Family", 5 guests, bride's side
 //
 // The word "and" becomes "&". Older `?to=<base64>` links still work.
 
@@ -26,20 +27,21 @@ function unslugify(slug) {
     .join(" ");
 }
 
-export function guestSlug({ family, count, side }) {
-  const n = Math.max(1, Math.min(99, Number(count) || 1));
-  return `${slugify(family)}-${n}${side === "bride" ? "b" : ""}`;
+export function guestSlug({ family, count, withFamily, side }) {
+  const size = withFamily ? "f" : Math.max(1, Math.min(99, Number(count) || 1));
+  return `${slugify(family)}-${size}${side === "bride" ? "b" : ""}`;
 }
 
 export function parseGuestSlug(slug) {
-  const m = /^(.+?)-(\d{1,2})(b|g)?$/i.exec(slug.trim());
+  const m = /^(.+?)-(\d{1,2}|f)(b|g)?$/i.exec(slug.trim());
   if (!m) return null;
   const family = unslugify(m[1]).slice(0, 80);
   if (!family) return null;
+  const withFamily = m[2].toLowerCase() === "f";
   return {
     family,
-    count: Math.max(1, parseInt(m[2], 10)),
-    members: [],
+    withFamily,
+    count: withFamily ? null : Math.max(1, parseInt(m[2], 10)),
     side: m[3]?.toLowerCase() === "b" ? "bride" : "groom",
   };
 }
@@ -51,12 +53,12 @@ function decodeLegacy(token) {
     const p = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (ch) => ch.charCodeAt(0))));
     const family = typeof p.f === "string" ? p.f.trim().slice(0, 80) : "";
     if (!family) return null;
-    const members = Array.isArray(p.m)
-      ? p.m.filter((x) => typeof x === "string" && x.trim()).map((x) => x.trim().slice(0, 40)).slice(0, 30)
-      : [];
-    const count = Math.max(1, Math.min(99, parseInt(p.c, 10) || members.length || 1));
-    const side = p.s === "groom" || p.s === "bride" ? p.s : null;
-    return { family, count, members, side };
+    return {
+      family,
+      withFamily: false,
+      count: Math.max(1, Math.min(99, parseInt(p.c, 10) || 1)),
+      side: p.s === "groom" || p.s === "bride" ? p.s : "groom",
+    };
   } catch {
     return null;
   }

@@ -36,7 +36,7 @@ function whatsappText(entry) {
   return (
     `Assalamu Alaikum, ${entry.family} ✨\n\n` +
     `You are cordially invited to the wedding of ${first} & ${second}` +
-    ` (${entry.count} ${entry.count === 1 ? "guest" : "guests"}).\n\n` +
+    (entry.withFamily ? " (with family).\n\n" : ` (${entry.count} ${entry.count === 1 ? "guest" : "guests"}).\n\n`) +
     `Please open your personal invitation:\n${entry.url}`
   );
 }
@@ -45,6 +45,8 @@ export default function CreateLinks() {
   const [side, setSide] = useState("groom");
   const [family, setFamily] = useState("");
   const [count, setCount] = useState(2);
+  // "With Family" -- no head count, the whole family is invited
+  const [withFamily, setWithFamily] = useState(false);
   const [baseUrl, setBaseUrl] = useState(() => load(BASE_KEY, null) ?? defaultBaseUrl());
   // Rebuilt on load so links saved in the old long format switch to the short one.
   const [list, setList] = useState(() =>
@@ -65,7 +67,7 @@ export default function CreateLinks() {
 
   let previewUrl = "";
   try {
-    if (family.trim()) previewUrl = buildInviteUrl(baseUrl, { family, count, side });
+    if (family.trim()) previewUrl = buildInviteUrl(baseUrl, { family, count, withFamily, side });
   } catch {
     /* invalid website address */
   }
@@ -74,7 +76,8 @@ export default function CreateLinks() {
   const totals = useMemo(
     () => ({
       families: shown.length,
-      guests: shown.reduce((n, e) => n + e.count, 0),
+      guests: shown.reduce((n, e) => n + (e.withFamily ? 0 : e.count || 0), 0),
+      openFamilies: shown.filter((e) => e.withFamily).length,
     }),
     [shown]
   );
@@ -100,13 +103,15 @@ export default function CreateLinks() {
       id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
       side,
       family: family.trim(),
-      count: Math.max(count, 1),
+      withFamily,
+      count: withFamily ? null : Math.max(count, 1),
       createdAt: Date.now(),
     };
     entry.url = makeUrl(entry);
     setList((l) => [entry, ...l]);
     setFamily("");
     setCount(2);
+    setWithFamily(false);
     copy(entry);
   }
 
@@ -187,20 +192,51 @@ export default function CreateLinks() {
 
           <div className="cl__field">
             <span className="cl__label">Kitne log invited hain</span>
-            <div className="cl__stepper">
-              <button type="button" onClick={() => setCount((c) => Math.max(1, c - 1))} aria-label="Kam karo">
-                −
-              </button>
-              <input
-                type="number"
-                min={1}
-                max={99}
-                value={count}
-                onChange={(e) => setCount(Math.max(1, Math.min(99, parseInt(e.target.value, 10) || 1)))}
-                aria-label="Guest count"
-              />
-              <button type="button" onClick={() => setCount((c) => Math.min(99, c + 1))} aria-label="Badhao">
-                +
+            <div className="cl__count">
+              <div className={`cl__stepper ${withFamily ? "is-off" : ""}`.trim()}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWithFamily(false);
+                    setCount((c) => Math.max(1, c - 1));
+                  }}
+                  aria-label="Kam karo"
+                >
+                  −
+                </button>
+                <input
+                  type="number"
+                  min={1}
+                  max={99}
+                  value={count}
+                  onChange={(e) => {
+                    setWithFamily(false);
+                    setCount(Math.max(1, Math.min(99, parseInt(e.target.value, 10) || 1)));
+                  }}
+                  aria-label="Guest count"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWithFamily(false);
+                    setCount((c) => Math.min(99, c + 1));
+                  }}
+                  aria-label="Badhao"
+                >
+                  +
+                </button>
+              </div>
+
+              <span className="cl__count-or">ya</span>
+
+              {/* no head count -- the invitation just says "With Family" */}
+              <button
+                type="button"
+                className={`cl__family-btn ${withFamily ? "is-on" : ""}`.trim()}
+                aria-pressed={withFamily}
+                onClick={() => setWithFamily((v) => !v)}
+              >
+                With Family
               </button>
             </div>
           </div>
@@ -250,7 +286,14 @@ export default function CreateLinks() {
             </div>
             <div>
               <strong>{totals.guests}</strong>
-              <span>Guests</span>
+              <span>
+                Guests
+                {totals.openFamilies > 0 && (
+                  <em>
+                    + {totals.openFamilies} with family
+                  </em>
+                )}
+              </span>
             </div>
           </div>
 
@@ -264,7 +307,7 @@ export default function CreateLinks() {
                     <span className={`cl__tag cl__tag--${e.side}`}>{e.side === "groom" ? "Groom" : "Bride"}</span>
                     <p className="cl__item-name">{e.family}</p>
                     <p className="cl__item-meta">
-                      <b>{e.count}</b> {e.count === 1 ? "guest" : "guests"}
+                      {e.withFamily ? <b>With family</b> : <><b>{e.count}</b> {e.count === 1 ? "guest" : "guests"}</>}
                     </p>
                     <p className="cl__item-url">{e.url.replace(/^https?:\/\//, "")}</p>
                   </div>

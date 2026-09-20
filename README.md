@@ -29,8 +29,10 @@ npm run build    # final static site dist/ mein (Netlify/Vercel/kahin bhi upload
 ## Personal invite links (har family ke liye)
 
 - `npm run dev` chala ke **http://localhost:5173/create.html** kholo (live site pe: `https://<aapka-domain>/create.html`).
-- Family ka naam, groom/bride side aur kitne log invited hain bharo → **Link banao & copy karo**.
-- Link chhota aur readable banta hai, jaise `/?upadhyay-family-3` (groom side) ya `/?upadhyay-family-3b` (bride side). Kholte hi intro pe couple ke naam ki jagah family ka naam aur guests ki ginti dikhti hai. Link mein "and" likha ho to "&" dikhta hai.
+- Family ka naam, groom/bride side aur kitne log invited hain bharo (ya "With Family") → **Link banao & copy karo**.
+- Link chhota aur readable banta hai: `/?upadhyay-family-3` (groom side), `/?upadhyay-family-3b` (bride side), aur ginti ki jagah pura khandan invite karna ho to `/?upadhyay-family-f`. Link mein "and" likha ho to "&" dikhta hai.
+- Kitne log invited hain, wo do jagah dikhta hai: intro screen pe aur Wedding Events mein us event ke card pe jiske `data.js` mein `showGuests: true` likha ho (abhi Barat).
+- Hero ki line groom side pe `heroIntro` aur bride side pe `heroIntroBride` se aati hai.
 - Bina `?to=` wala normal link pehle jaisa couple ke naam dikhata hai.
 - Site live hone ke baad create page ke **Website address** mein apna domain daal do, taaki links localhost ki jagah live site pe khulein.
 - Banaye hue links ki list sirf usi browser mein save hoti hai (groom aur bride ki list alag-alag phone pe alag rahegi).

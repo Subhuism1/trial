@@ -72,7 +72,7 @@ function Invitation() {
       <ScratchReveal key="scratchReveal" data={wedding.scratch} day={wedding.day} couple={wedding.couple} />
     ),
     envelop: () => <Invite key="envelop" data={wedding.invite} couple={wedding.couple} hosts={wedding.contact} />,
-    timeline: () => <Events key="timeline" events={wedding.events} />,
+    timeline: () => <Events key="timeline" events={wedding.events} guest={guest} />,
     countdown: () => <Countdown key="countdown" day={wedding.day} venue={wedding.venue} couple={wedding.couple} />,
     venue: () => (
       <Venue key="venue" data={wedding.venue} photo={wedding.photos.venueCard} extra={wedding.additionalVenues} />
@@ -133,6 +133,7 @@ function Invitation() {
           opener={wedding.opener}
           video={wedding.photos.heroVideo}
           poster={wedding.photos.heroPoster}
+          guest={guest}
           onOpen={() => setOpened(true)}
           autoOpen={!showIntro}
         />
